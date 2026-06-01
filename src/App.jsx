@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import ManageEvents from './pages/Admin/ManageEvents';
+import ManageAnnouncements from './pages/Admin/ManageAnnouncements';
+import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/HeaderSection';
 import HeroImageSection from './components/HeroImageSection';
 import AboutSection from './components/AboutSection';
 import EventsSection from './components/EventsSection';
+import AnnouncementsSection from './components/AnnouncementsSection';
 import TeamSection from './components/TeamSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import Spotlight from './components/Spotlight';
 
-function App() {
+function PublicHome() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-        // Show header after scrolling past 90% of the viewport height
-        if (window.scrollY > window.innerHeight * 0.9) {
-            setIsHeaderVisible(true);
-        } else {
-            setIsHeaderVisible(false);
-        }
+      if (window.scrollY > window.innerHeight * 0.9) {
+        setIsHeaderVisible(true);
+      } else {
+        setIsHeaderVisible(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -28,22 +32,15 @@ function App() {
 
   return (
     <div className="bg-slate-950">
-      {/* <Spotlight /> */}
       <Header isVisible={isHeaderVisible} />
-      
-      {/* 1. The hero section is placed in a fixed container that acts as a background */}
       <div className="fixed top-0 left-0 w-full h-screen z-0">
         <HeroImageSection />
       </div>
-      
-      {/* 2. This empty spacer div pushes the main content down by one full screen height */}
       <div className="h-screen" />
-
-      {/* 3. This wrapper contains all the content that scrolls over the hero background */}
       <div className="relative z-10 bg-slate-950">
-        {/* The container now properly wraps the main content and footer */}
         <div className="container mx-auto px-6 max-w-7xl">
           <main>
+            <AnnouncementsSection />
             <AboutSection />
             <EventsSection />
             <TeamSection />
@@ -53,7 +50,41 @@ function App() {
         </div>
       </div>
     </div>
-  )
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="events" element={<ManageEvents />} />
+          <Route path="announcements" element={<ManageAnnouncements />} />
+          <Route index element={
+            <div className="text-center text-slate-400 py-12">
+              <p className="text-lg">Welcome to Admin Dashboard!</p>
+              <p className="text-sm mt-2">Select an option above to get started</p>
+            </div>
+          } />
+        </Route>
+
+        {/* Public Routes */}
+        <Route path="/" element={<PublicHome />} />
+
+        {/* Catch all - redirect to home */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

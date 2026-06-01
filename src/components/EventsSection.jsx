@@ -1,49 +1,64 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
-import AnimatedSection from './AnimatedSection';
-import iedcOrientationImage from '../assets/posters/iedc_orientation.jpeg';
+import { useEvents } from '../hooks/useEvents';
 
 const EventsSection = () => {
-    const events = [
-        { title: "IEDC Orientation", date: "19th Aug, 2025 | 10 AM to 12 PM | Sindhu Seminar Hall", description: "Kickstart your journey into innovation and entrepreneurship with the IEDC Orientation. Open to all, no prior experience needed!", link: "", image: iedcOrientationImage },
-    ];
+  const { events, loading } = useEvents();
 
-    const containerClass = events.length < 3 
-        ? "flex justify-center items-center gap-8" 
-        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8";
-
+  if (loading) {
     return (
-        <AnimatedSection id="events">
-            <div className="container mx-auto px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white">Upcoming Events</h2>
-                    <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-2 rounded-full"></div>
-                </div>
-                <div className={containerClass}>
-                    {events.map((event, index) => (
-                        <motion.div 
-                            key={index} 
-                            className="glass-card rounded-lg overflow-hidden shadow-lg max-w-md" 
-                            whileHover={{ y: -10, boxShadow: "0 10px 30px rgba(168, 85, 247, 0.2)" }}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            <img src={event.image} alt="Event Image" className="w-full object-cover"/>
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-white mb-2">{event.title}</h3>
-                                <p className="gradient-text font-['Poppins'] mb-1 font-semibold">{event.date}</p>
-                                <p className="text-slate-300 font-['Poppins'] mb-4">{event.description}</p>
-                                {event.link != "" && <a href={event.link} className="text-pink-400 hover:text-pink-300 font-semibold">Register Now &rarr;</a>}
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </AnimatedSection>
+      <section className="py-20 border-b border-slate-800">
+        <h2 className="text-4xl font-bold gradient-text mb-12 text-center">Upcoming Events</h2>
+        <div className="text-center text-slate-400">Loading events...</div>
+      </section>
     );
+  }
+
+  return (
+    <section className="py-20 border-b border-slate-800">
+      <h2 className="text-4xl font-bold gradient-text mb-12 text-center">📅 Upcoming Events</h2>
+
+      {events.length === 0 ? (
+        <div className="text-center text-slate-400">
+          <p>No upcoming events. Check back soon for exciting opportunities!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {events.map(event => (
+            <div key={event.id} className="glass-card rounded-lg overflow-hidden hover:border-purple-500 transition group">
+              {event.imageUrl && (
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={event.imageUrl}
+                    alt={event.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                    onError={(e) => {
+                      e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23374151" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" font-size="20" fill="%239CA3AF" text-anchor="middle" dy=".3em"%3EImage not available%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
+                </div>
+              )}
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3 gap-2">
+                  <h3 className="text-xl font-bold text-purple-400 flex-1">{event.title}</h3>
+                  <span className="bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded whitespace-nowrap">
+                    {event.category}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4 text-sm text-slate-400 mb-3">
+                  <span>📅 {new Date(event.date).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}</span>
+                  <span>🕐 {event.time}</span>
+                </div>
+                <p className="text-slate-300 line-clamp-3">{event.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default EventsSection;
