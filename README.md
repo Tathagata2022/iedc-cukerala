@@ -7,7 +7,7 @@
 
 The official web platform for the **Innovation and Entrepreneurship Development Centre (IEDC)** at the **Central University of Kerala**. This project features a modern, responsive public-facing website and a fully secure backend Admin Dashboard to manage university events, announcements, and team rosters.
 
-🌐 **Live Demo:** [Insert Your Firebase Live Link Here]
+🌐 **Live Demo:** https://iedc-cuk.web.app/
 
 ---
 
