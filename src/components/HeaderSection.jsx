@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const Header = ({ isVisible }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
+    // --- ADDED PAST EVENTS HERE ---
     const navLinks = [
         { name: 'Home', href: '#hero-image-section' },
+        { name: 'Announcements', href: '#announcements' },
         { name: 'About', href: '#about' },
         { name: 'Events', href: '#events' },
+        { name: 'Past Events', href: '#past-events' }, 
         { name: 'Team', href: '#team' },
         { name: 'Contact', href: '#contact' },
     ];
@@ -32,21 +34,18 @@ const Header = ({ isVisible }) => {
                         IEDC <span className="gradient-text ml-2">CUK</span>
                     </a>
                     
-                    {/* Wrapper for right-aligned items */}
                     <div className="flex items-center space-x-4">
-                        {/* Desktop Navigation & Join Button */}
                         <div className="hidden md:flex items-center space-x-4">
                             <nav className="flex items-center space-x-6 text-slate-300">
                                 {navLinks.map(link => (
                                     <a key={link.name} href={link.href} className="hover:text-white transition-colors duration-300">{link.name}</a>
                                 ))}
                             </nav>
-                            <a href="#contact" className="gradient-button text-white font-semibold px-5 py-2 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-                                Join Us
+                            <a href="/admin/login" className="gradient-button text-white font-semibold px-5 py-2 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                                Admin Login
                             </a>
                         </div>
 
-                        {/* Mobile Hamburger Button */}
                         <div className="md:hidden">
                             <button onClick={() => setIsMenuOpen(true)} className="text-white">
                                 <Menu />
@@ -56,7 +55,6 @@ const Header = ({ isVisible }) => {
                 </div>
             </motion.header>
 
-            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div 
@@ -86,11 +84,11 @@ const Header = ({ isVisible }) => {
                         </nav>
                         <div className="pt-8">
                             <a 
-                                href="#contact" 
+                                href="/admin/login" 
                                 className="gradient-button text-white font-semibold px-8 py-3 rounded-lg shadow-lg"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                Join Us
+                                Admin Login
                             </a>
                         </div>
                     </motion.div>

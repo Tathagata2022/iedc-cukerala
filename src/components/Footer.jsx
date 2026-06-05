@@ -69,8 +69,22 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-slate-800 text-center text-slate-500">
-                    <p>&copy; {new Date().getFullYear()} IEDC Central University of Kerala. All Rights Reserved.</p>
+                {/* --- UPDATED COPYRIGHT & DEVELOPER CREDIT SECTION --- */}
+                <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col items-center justify-center">
+                    <p className="text-slate-500 text-sm text-center">
+                        &copy; {new Date().getFullYear()} IEDC Central University of Kerala. All Rights Reserved.
+                    </p>
+                    <p className="text-slate-500 text-sm text-center mt-2">
+                        Developed by{' '}
+                        <a 
+                            href="https://www.linkedin.com/in/tathagata-mandal-453863225/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-pink-400 font-semibold hover:text-pink-300 transition"
+                        >
+                            Tathagata Mandal
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>

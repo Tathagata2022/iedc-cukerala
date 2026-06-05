@@ -72,7 +72,9 @@ const AdminLogin = () => {
         </form>
 
         <p className="text-slate-400 text-xs text-center mt-4">
-          Use your Firebase admin credentials to login
+          Mail to <a href="mailto:tathagata.2500705021@cukerala.ac.in" className="text-purple-400 hover:underline">
+            tathagata.2500705021@cukerala.ac.in
+          </a> for support
         </p>
       </div>
     </div>

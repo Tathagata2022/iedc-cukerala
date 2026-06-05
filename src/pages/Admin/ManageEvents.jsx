@@ -9,7 +9,8 @@ const ManageEvents = () => {
     date: '',
     time: '',
     imageUrl: '',
-    category: ''
+    category: '',
+    link: '' // Added link state here
   });
   const [editingId, setEditingId] = useState(null);
   const [submitError, setSubmitError] = useState('');
@@ -30,7 +31,7 @@ const ManageEvents = () => {
       } else {
         await addEvent(formData);
       }
-      setFormData({ title: '', description: '', date: '', time: '', imageUrl: '', category: '' });
+      setFormData({ title: '', description: '', date: '', time: '', imageUrl: '', category: '', link: '' });
     } catch (error) {
       setSubmitError('Error: ' + error.message);
     }
@@ -38,12 +39,13 @@ const ManageEvents = () => {
 
   const handleEdit = (event) => {
     setFormData({
-      title: event.title,
-      description: event.description,
-      date: event.date,
-      time: event.time,
-      imageUrl: event.imageUrl,
-      category: event.category
+      title: event.title || '',
+      description: event.description || '',
+      date: event.date || '',
+      time: event.time || '',
+      imageUrl: event.imageUrl || '',
+      category: event.category || '',
+      link: event.link || ''
     });
     setEditingId(event.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -57,7 +59,7 @@ const ManageEvents = () => {
 
   const handleCancel = () => {
     setEditingId(null);
-    setFormData({ title: '', description: '', date: '', time: '', imageUrl: '', category: '' });
+    setFormData({ title: '', description: '', date: '', time: '', imageUrl: '', category: '', link: '' });
   };
 
   return (
@@ -77,107 +79,54 @@ const ManageEvents = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-slate-300 text-sm font-semibold mb-2">Event Title *</label>
-            <input
-              type="text"
-              name="title"
-              placeholder="e.g., Workshop on AI"
-              value={formData.title}
-              onChange={handleInputChange}
-              className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition"
-              required
-            />
+            <input type="text" name="title" placeholder="e.g., Workshop on AI" value={formData.title} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" required />
           </div>
 
           <div>
             <label className="block text-slate-300 text-sm font-semibold mb-2">Description *</label>
-            <textarea
-              name="description"
-              placeholder="Event details and information"
-              value={formData.description}
-              onChange={handleInputChange}
-              className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition min-h-24"
-              required
-            />
+            <textarea name="description" placeholder="Event details and information" value={formData.description} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition min-h-24" required />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-slate-300 text-sm font-semibold mb-2">Date *</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-                className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition"
-                required
-              />
+              <input type="date" name="date" value={formData.date} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" required />
             </div>
-
             <div>
               <label className="block text-slate-300 text-sm font-semibold mb-2">Time *</label>
-              <input
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleInputChange}
-                className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition"
-                required
-              />
+              <input type="time" name="time" value={formData.time} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" required />
             </div>
-          </div>
-
-          <div>
-            <label className="block text-slate-300 text-sm font-semibold mb-2">Image URL *</label>
-            <input
-              type="url"
-              name="imageUrl"
-              placeholder="https://example.com/image.jpg"
-              value={formData.imageUrl}
-              onChange={handleInputChange}
-              className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition"
-              required
-            />
-            {formData.imageUrl && (
-              <div className="mt-2">
-                <p className="text-xs text-slate-400 mb-2">Preview:</p>
-                <img 
-                  src={formData.imageUrl} 
-                  alt="Preview" 
-                  className="w-full h-32 object-cover rounded border border-slate-700"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
           </div>
 
           <div>
             <label className="block text-slate-300 text-sm font-semibold mb-2">Category *</label>
-            <input
-              type="text"
-              name="category"
-              placeholder="e.g., Workshop, Seminar, Bootcamp"
-              value={formData.category}
-              onChange={handleInputChange}
-              className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition"
-              required
-            />
+            <input type="text" name="category" placeholder="e.g., Workshop, Seminar, Bootcamp" value={formData.category} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" required />
+          </div>
+
+          {/* --- REVERTED BACK TO TEXT URL FOR IMAGES --- */}
+          <div>
+            <label className="block text-slate-300 text-sm font-semibold mb-2">Image URL *</label>
+            <input type="url" name="imageUrl" placeholder="https://example.com/image.jpg" value={formData.imageUrl} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" required />
+            {formData.imageUrl && (
+              <div className="mt-2">
+                <p className="text-xs text-slate-400 mb-2">Preview:</p>
+                <img src={formData.imageUrl} alt="Preview" className="w-full h-32 object-cover rounded border border-slate-700" onError={(e) => { e.target.style.display = 'none'; }} />
+              </div>
+            )}
+          </div>
+
+          {/* --- NEW REGISTRATION LINK INPUT --- */}
+          <div>
+            <label className="block text-slate-300 text-sm font-semibold mb-2">Registration Link (Optional)</label>
+            <input type="url" name="link" placeholder="https://forms.gle/..." value={formData.link} onChange={handleInputChange} className="w-full bg-slate-800 text-white p-3 rounded border border-slate-700 focus:border-purple-500 outline-none transition" />
           </div>
 
           <div className="flex gap-2 pt-4">
-            <button
-              type="submit"
-              className="flex-1 gradient-button text-white font-bold py-3 rounded hover:opacity-90 transition"
-            >
+            <button type="submit" className="flex-1 gradient-button text-white font-bold py-3 rounded hover:opacity-90 transition">
               {editingId ? '💾 Update Event' : '✚ Add Event'}
             </button>
             {editingId && (
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition"
-              >
+              <button type="button" onClick={handleCancel} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition">
                 Cancel
               </button>
             )}
@@ -210,19 +159,13 @@ const ManageEvents = () => {
                   <span className="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">{event.category}</span>
                 </div>
                 <p className="text-sm text-slate-300 mb-3 line-clamp-2">{event.description}</p>
+                {/* Shows the link in the admin list if it exists */}
+                {event.link && (
+                    <a href={event.link} target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:underline mb-3 block">🔗 View Link</a>
+                )}
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(event)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm font-semibold transition"
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(event.id)}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded text-sm font-semibold transition"
-                  >
-                    🗑️ Delete
-                  </button>
+                  <button onClick={() => handleEdit(event)} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm font-semibold transition">✏️ Edit</button>
+                  <button onClick={() => handleDelete(event.id)} className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded text-sm font-semibold transition">🗑️ Delete</button>
                 </div>
               </div>
             ))}

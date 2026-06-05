@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* --- ADDED: SMOOTH SCROLLING FIX --- */
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: "Space Grotesk", sans-serif;
@@ -13,7 +17,6 @@ body {
   height: 100vh;
   background: none;
 }
-
 
 /* Custom Gradient Text */
 .gradient-text {
@@ -53,5 +56,3 @@ body {
   pointer-events: none;
   z-index: 1;
 }
-
-

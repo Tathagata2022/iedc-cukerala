@@ -24,9 +24,9 @@ const EventsSection = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map(event => (
-            <div key={event.id} className="glass-card rounded-lg overflow-hidden hover:border-purple-500 transition group">
+            <div key={event.id} className="glass-card rounded-lg overflow-hidden hover:border-purple-500 transition group flex flex-col h-full">
               {event.imageUrl && (
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-48 overflow-hidden shrink-0">
                   <img
                     src={event.imageUrl}
                     alt={event.title}
@@ -37,7 +37,7 @@ const EventsSection = () => {
                   />
                 </div>
               )}
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-3 gap-2">
                   <h3 className="text-xl font-bold text-purple-400 flex-1">{event.title}</h3>
                   <span className="bg-purple-500/20 text-purple-300 text-xs px-2 py-1 rounded whitespace-nowrap">
@@ -51,7 +51,20 @@ const EventsSection = () => {
                   })}</span>
                   <span>🕐 {event.time}</span>
                 </div>
-                <p className="text-slate-300 line-clamp-3">{event.description}</p>
+                
+                <p className="text-slate-300 line-clamp-3 mb-6 flex-grow">{event.description}</p>
+                
+                {/* --- BUTTON RENDERED IF LINK EXISTS --- */}
+                {event.link && (
+                  <a 
+                    href={event.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="mt-auto block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded transition-colors duration-300"
+                  >
+                    Register / View Details
+                  </a>
+                )}
               </div>
             </div>
           ))}

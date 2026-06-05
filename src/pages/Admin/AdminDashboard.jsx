@@ -36,8 +36,10 @@ const AdminDashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Navigation Cards */}
+        {/* Navigation Cards - Now a 2x2 grid (md:grid-cols-2) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          
+          {/* 1. Manage Events */}
           <Link
             to="/admin/dashboard/events"
             className="glass-card p-6 rounded-lg hover:border-purple-500 transition cursor-pointer group"
@@ -53,6 +55,23 @@ const AdminDashboard = () => {
             </div>
           </Link>
 
+          {/* 2. Manage Past Events */}
+          <Link
+            to="/admin/dashboard/past-events"
+            className="glass-card p-6 rounded-lg hover:border-blue-500 transition cursor-pointer group"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-blue-400 mb-2 group-hover:text-blue-300 transition">
+                  📸 Past Events
+                </h2>
+                <p className="text-slate-400">Archive completed events with cover photos and Google Drive gallery links</p>
+              </div>
+              <span className="text-3xl">→</span>
+            </div>
+          </Link>
+
+          {/* 3. Manage Announcements */}
           <Link
             to="/admin/dashboard/announcements"
             className="glass-card p-6 rounded-lg hover:border-purple-500 transition cursor-pointer group"
@@ -60,13 +79,30 @@ const AdminDashboard = () => {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-2xl font-bold gradient-text mb-2 group-hover:text-purple-400 transition">
-                  📢 Manage Announcements
+                  📢 Announcements
                 </h2>
                 <p className="text-slate-400">Create, edit, and delete important announcements</p>
               </div>
               <span className="text-3xl">→</span>
             </div>
           </Link>
+
+          {/* 4. NEW: Manage Team */}
+          <Link
+            to="/admin/dashboard/team"
+            className="glass-card p-6 rounded-lg hover:border-teal-500 transition cursor-pointer group"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-teal-400 mb-2 group-hover:text-teal-300 transition">
+                  👥 Manage Team
+                </h2>
+                <p className="text-slate-400">Invite new leads, track profile setups, and revoke access.</p>
+              </div>
+              <span className="text-3xl">→</span>
+            </div>
+          </Link>
+
         </div>
 
         {/* Main Content Area */}
